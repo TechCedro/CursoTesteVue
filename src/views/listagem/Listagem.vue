@@ -21,7 +21,7 @@ export default {
         {
           prop: "nome",
           formatar: (dado) => {
-            return dado.name.first + dado.name.last;
+            return dado.name.first + " " + dado.name.last;
           },
           texto: "Nome",
         },
@@ -49,15 +49,65 @@ export default {
         },
       ],
       dados: [],
+      resposta: [],
     };
+  },
+  computed: {
+    filtros() {
+      return this.$store.getters.filtros;
+    },
+  },
+
+  watch: {
+    filtros() {
+      this.dados = this.resposta.filter((dado) => {
+        return this.aplicarFiltros(dado);
+      });
+    },
   },
   mounted() {
     this.carregarUsuarios();
   },
   methods: {
+    aplicarFiltros(dado) {
+      const _filtros = {
+        temNome: false,
+        temIdade: false,
+        temEmail: false,
+        temPais: false,
+      };
+      if (!this.filtros) {
+        return true;
+      }
+      if (this.filtros?.nome) {
+        _filtros.temNome =
+          (dado.name.first + dado.name.last).indexOf(this.filtros.nome) > -1;
+      }
+
+      if (this.filtros?.idade) {
+        _filtros.temIdade = dado.dob.age == this.filtros.idade;
+      }
+
+      if (this.filtros?.email) {
+        _filtros.temEmail = dado.email.indexOf(this.filtros.email) > -1;
+      }
+
+      if (this.filtros?.pais) {
+        _filtros.temPais = dado.location.country == this.filtros.pais;
+      }
+      return (
+        _filtros.temNome ||
+        _filtros.temIdade ||
+        _filtros.temEmail ||
+        _filtros.temPais
+      );
+    },
     async carregarUsuarios() {
       const resposta = await listarUsuarios();
-      this.dados = resposta.data.results;
+      this.resposta = resposta.data.results;
+      this.dados = this.resposta.filter((dado) => {
+        return this.aplicarFiltros(dado);
+      });
     },
   },
 };

@@ -2,6 +2,7 @@
   <div id="app">
     <nav id="nav">
       <router-link to="/cadastro">Cadastro</router-link> |
+      <router-link to="/edicao">Edicao</router-link> |
       <router-link to="/listagem">Listagem</router-link>
     </nav>
     <router-view />

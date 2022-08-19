@@ -42,7 +42,7 @@
 import { salvar } from "../../service/cadastro/cadastro";
 import Formulario from "../../components/formulario/Formulario.vue";
 export default {
-  name: "listagem",
+  name: "cadastro",
   components: { Formulario },
   data() {
     return {
@@ -51,7 +51,12 @@ export default {
   },
   methods: {
     async salvarComentario() {
-      await salvar(this.comentario);
+      try {
+        await salvar(this.comentario);
+        alert("Salvo com sucesso");
+      } catch (err) {
+        alert("Problemas ao salvar");
+      }
     },
     limpar() {
       this.comentario = {};

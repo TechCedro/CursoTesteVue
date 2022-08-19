@@ -76,7 +76,7 @@ export default {
         temEmail: false,
         temPais: false,
       };
-      if (!this.filtros) {
+      if (!Object.keys(this.filtros)?.length) {
         return true;
       }
       if (this.filtros?.nome) {
@@ -95,6 +95,7 @@ export default {
       if (this.filtros?.pais) {
         _filtros.temPais = dado.location.country == this.filtros.pais;
       }
+ 
       return (
         _filtros.temNome ||
         _filtros.temIdade ||

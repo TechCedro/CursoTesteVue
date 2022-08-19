@@ -22,7 +22,7 @@ export default new Vuex.Store({
       context.commit("salvarFiltros", novoFiltro);
     },
     limparFiltros(context) {
-      context.commit("salvarFiltros", null);
+      context.commit("salvarFiltros", {});
     },
   },
   modules: {},
